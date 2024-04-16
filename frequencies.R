@@ -2,7 +2,7 @@
 #01 set up ----
 
 # Working dictionary
-pacman::p_load(rstudioapi,dplyr,psych,haven,apaTables,readxl,tidyverse,MplusAutomation,semTools, lavaan)
+pacman::p_load(rstudioapi,dplyr,psych,haven,apaTables,readxl,tidyverse,MplusAutomation,semTools, lavaan, janitor, purr)
 
 options(scipen=999, max.print=5000)
 
@@ -23,4 +23,18 @@ print(nrow(duplicates)) # Number of duplicates (0)
 
 #***********************************************************************
 #*
-#*
+
+names(mydata)
+
+# Get a summary of your dataframe
+summary_table <- lapply(mydata[, c('mogWFH', 'curWork', 'leadPos', 'freelanc', 'sectOrg', 'sizeOrg', 'comDay', 'auto', 'beifahre', 'bus', 'zug', 'fuss', 'zweirad', 'v_262', 
+                                   'optWFH', 'wfh_Mon', 'wfh_Tue', 'wfh_Wed', 'wfh_Thu', 'wfh_Fri', 'wfh_sat', 'wfh_Sun', 'dayWFH', 'realWFH', 'daySite', 'decMaker', 'ort_Home',
+                                  'ort_Cafe', 'ort_Share', 'advWFH1', 'advWFH2', 'advWFH3', 'advWFH4', 'advWFH5', 'advWFH6', 'advWFH7', 'advWFH8', 'advBuro1', 'advBuro2', 
+                                  'advBuro3', 'advBuro4', 'advBuro5', 'nation', 'education', 'salary', 'region', 'lifeSit1', 'lifeSit2', 'lifeSit3',
+                                  'lifeSit4', 'lifeSit5', 'lifeSit6')], tabyl)
+
+
+#EXPORT FILE
+combined_df <- bind_rows(summary_table, .id = "var_name")
+write.csv(combined_df, "frequencies.csv", row.names = TRUE)
+
